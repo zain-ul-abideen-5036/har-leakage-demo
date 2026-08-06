@@ -8,7 +8,7 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![scikit--learn](https://img.shields.io/badge/scikit--learn-1.3%2B-orange)](https://scikit-learn.org/)
 
-[Read the full article on Medium](#) &nbsp;·&nbsp; [Quick start](#quick-start) &nbsp;·&nbsp; [Project structure](#project-structure) &nbsp;·&nbsp; [The core fix](#the-core-fix-isolated)
+[Read the full article on Medium](#https://medium.com/@zainulabideen5/the-data-leakage-bug-that-makes-your-model-look-30-points-better-than-it-is-0160407cdaee) &nbsp;·&nbsp; [Quick start](#quick-start) &nbsp;·&nbsp; [Project structure](#project-structure) &nbsp;·&nbsp; [The core fix](#the-core-fix-isolated)
 
 </div>
 
