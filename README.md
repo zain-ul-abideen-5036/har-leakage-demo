@@ -25,7 +25,7 @@ Same synthetic dataset. Same two models. One line of splitting code changed.
 
 The lower numbers are the correct ones. The higher numbers are what you get when your model partly learns to recognize *people* instead of *activities*.
 
-> **This repository is the companion code for the Medium article** *"The Data Leakage Bug That Makes Your Model Look 30 Points Better Than It Is."* The article explains the reasoning and the figures in depth; this repo is where you go to run it yourself, verify the numbers, and adapt it to your own data. **[Read the article →](#)**
+> **This repository is the companion code for the Medium article** *"The Data Leakage Bug That Makes Your Model Look 30 Points Better Than It Is."* The article explains the reasoning and the figures in depth; this repo is where you go to run it yourself, verify the numbers, and adapt it to your own data. **[Read the article →](https://medium.com/@zainulabideen5/the-data-leakage-bug-that-makes-your-model-look-30-points-better-than-it-is-0160407cdaee)**
 
 ---
 
