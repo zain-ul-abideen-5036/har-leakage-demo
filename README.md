@@ -1,60 +1,83 @@
-# HAR Subject Level Data Leakage Demo
+<div align="center">
 
-A small, fully reproducible demonstration of subject level data leakage in Human Activity Recognition (HAR), the bug where a naive random train/test split lets a model partially "recognize the person" instead of learning the activity itself.
+# HAR Subject-Level Data Leakage Demo
 
-This repository contains the exact code behind the article *The Data Leakage Bug That Makes Your Model Look 30 Points Better Than It Is*.
+**A fully reproducible demonstration of the data leakage bug that makes wearable-sensor activity classifiers look 30 accuracy points better than they actually are.**
 
-## The result in one line
+[![Python](https://img.shields.io/badge/python-3.9%2B-blue)](https://www.python.org/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+[![scikit--learn](https://img.shields.io/badge/scikit--learn-1.3%2B-orange)](https://scikit-learn.org/)
 
-Same synthetic dataset, same two models, one line of splitting code changed:
+[Read the full article on Medium](#) &nbsp;·&nbsp; [Quick start](#quick-start) &nbsp;·&nbsp; [Project structure](#project-structure) &nbsp;·&nbsp; [The core fix](#the-core-fix-isolated)
 
-| Model | Naive random split | Subject level split |
-|---|---|---|
-| Random Forest | 78.3% | 47.5% |
-| SVM | 77.2% | 54.0% |
+</div>
 
-The lower numbers are the correct ones.
+---
+
+## The result, in one table
+
+Same synthetic dataset. Same two models. One line of splitting code changed.
+
+| Model | Naive random split | Subject-level split | Drop |
+|---|---:|---:|---:|
+| Random Forest | 78.3% | 47.5% | −30.8 pts |
+| SVM | 77.2% | 54.0% | −23.2 pts |
+
+The lower numbers are the correct ones. The higher numbers are what you get when your model partly learns to recognize *people* instead of *activities*.
+
+> **This repository is the companion code for the Medium article** *"The Data Leakage Bug That Makes Your Model Look 30 Points Better Than It Is."* The article explains the reasoning and the figures in depth; this repo is where you go to run it yourself, verify the numbers, and adapt it to your own data. **[Read the article →](#)**
+
+---
 
 ## Why this matters
 
-Wearable sensor datasets are not collections of independent samples. They are a small number of people, each contributing many correlated samples. A random shuffle ignores that structure, and a model trained on the resulting split can partly succeed by recognizing individuals rather than activities. This repository builds a synthetic dataset with that exact structure, deliberately, so the mechanism can be isolated and measured directly rather than argued about in the abstract.
+Wearable sensor datasets are not collections of independent samples. They're a small number of people, each contributing many correlated samples, and every person moves in their own idiosyncratic way. A random train/test shuffle has no concept of "person," so it happily splits one individual's samples across both sides of the line, handing a model the answer key before it's ever evaluated.
+
+This repository builds a synthetic dataset with that exact structure on purpose, so the mechanism can be measured directly instead of argued about in the abstract, and shows the fix: a single group-aware split.
+
+---
+
+## Quick start
+
+```bash
+git clone https://github.com/zain-ul-abideen-5036/har-leakage-demo.git
+cd har-leakage-demo
+pip install -r requirements.txt
+
+# Step 1 — run the experiment (naive split vs. subject-level split)
+python -m src.experiment
+
+# Step 2 — generate every figure from the real saved results
+python -m src.make_figures
+
+# Optional — regenerate the banner image
+python -m src.make_banner
+```
+
+`src/experiment.py` prints both accuracy numbers to the console and writes `results/results.json` and `results/dataset.npz`. `src/make_figures.py` reads those files and produces every figure used in the article, so the figures are never separated from the numbers that generated them.
+
+Want to confirm this isn't a cherry-picked result? Change `seed` in `src/generate_data.py` and rerun both steps. The pattern holds across seeds, because it's structural, not incidental.
+
+---
 
 ## Project structure
 
 ```
 har-leakage-demo/
-├── article.md                  Full write-up
+├── article.md                  Full write-up (companion to the Medium article)
 ├── src/
 │   ├── generate_data.py        Synthetic HAR dataset generator
-│   ├── experiment.py           Naive split vs subject level split experiment
+│   ├── experiment.py           Naive split vs. subject-level split experiment
 │   ├── make_figures.py         Builds all figures from real saved results
 │   └── make_banner.py          Builds the article banner image
-├── figures/                    Generated figures (created by make_figures.py)
+├── figures/                    Generated figures (from make_figures.py)
 ├── results/                    Generated results.json and dataset.npz
 ├── assets/                     Generated banner image
-└── requirements.txt
+├── requirements.txt
+└── LICENSE
 ```
 
-## Running it yourself
-
-```bash
-git clone https://github.com/<your-username>/har-leakage-demo.git
-cd har-leakage-demo
-pip install -r requirements.txt
-
-# Step 1: run the experiment (naive split vs subject level split)
-python -m src.experiment
-
-# Step 2: generate every figure from the real saved results
-python -m src.make_figures
-
-# Optional: regenerate the banner image
-python -m src.make_banner
-```
-
-Running `src/experiment.py` prints both accuracy numbers to the console and writes `results/results.json` and `results/dataset.npz`. `src/make_figures.py` reads those files and produces every figure used in the article, so the figures are never separated from the numbers that generated them.
-
-Change the random seed in `src/generate_data.py` to confirm the pattern isn't a cherry picked result. It holds across seeds, because it's structural, not incidental.
+---
 
 ## The core fix, isolated
 
@@ -67,8 +90,14 @@ train_idx, test_idx = next(gss.split(X, y, groups))
 assert set(groups[train_idx]).isdisjoint(set(groups[test_idx])), "Leakage detected!"
 ```
 
-One import, one extra argument passed to the split, and one assertion that turns a silent assumption into a loud failure if it's ever violated.
+One import, one extra argument passed to the split, and one assertion that turns a silent assumption into a loud failure the moment it's ever violated.
+
+---
+
+## Read more
+
+The full reasoning, including a PCA visualization of why the subject signal dominates the activity signal, and a confusion-matrix breakdown of where the errors actually land once leakage is removed, is in [`article.md`](article.md) and the published version on Medium.
 
 ## License
 
-MIT. Use this however is useful to you.
+MIT. Use this however is useful to you. See [LICENSE](LICENSE).
