@@ -207,4 +207,5 @@ python -m src.make_figures    # regenerates every figure in this article
 Change the random seed in `src/generate_data.py` and rerun both commands if you want to convince yourself this isn't a cherry picked result. It holds across seeds, because it's structural, not incidental.
 
 If this kind of methodology first debugging is interesting to you, the repository's README has more detail, and I'm always happy to talk shop in the comments.
+
 ---
