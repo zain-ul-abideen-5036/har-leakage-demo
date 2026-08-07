@@ -10,7 +10,9 @@ This is one of the most common and most silent bugs in applied machine learning,
 
 ---
 
-**[Insert Banner Image here]**
+<p align="center">
+  <img src="assets/banner.png" alt="Project Banner" width="900">
+</p>
 
 ---
 
