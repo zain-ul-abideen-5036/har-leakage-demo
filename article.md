@@ -159,7 +159,13 @@ Removing the leakage doesn't just lower the headline accuracy number, it changes
 
 ---
 
-**[Insert Figure 4 here — Confusion matrices, naive split vs. subject level split]**
+<p align="center">
+  <img src="figures/figure4_confusion_matrices.png" alt="Confusion matrices: naive split vs. subject-level split" width="700">
+</p>
+
+<p align="center">
+  <strong>Figure 04.</strong> Confusion matrices, naive split vs. subject level split
+</p>
 
 ---
 
