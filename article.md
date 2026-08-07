@@ -42,7 +42,6 @@ A random shuffle has no idea any of that matters. It happily places some of Subj
 
 So the model doesn't strictly need to learn what walking looks like in general. It can partially get away with recognizing Subject 14 specifically, and it has already met Subject 14 during training. The model isn't cheating on purpose. The split simply handed it the answer key before the exam started.
 
----
 
 <p align="center">
   <img src="figures/figure1_split_diagram.png" alt="Naive random split vs. subject-level split" width="700">
@@ -52,7 +51,7 @@ So the model doesn't strictly need to learn what walking looks like in general. 
   <strong>Figure 01.</strong> Naive random split vs. subject level split, side by side
 </p>
 
----
+
 
 This isn't a hypothetical concern I'm raising to sound careful. It's a documented, recurring finding in real HAR research. One comparative study running a Random Forest model on real wearable sensor data found that switching from standard k fold cross validation to Leave One Subject Out validation, the rigorous approach, dropped the reported accuracy from <cite index="3-1">89% down to 76%</cite>. That's the same pattern this article reproduces, appearing independently in someone else's real dataset. It isn't a coincidence. It's the same bug, caught twice.
 
@@ -117,7 +116,6 @@ assert set(groups[train_idx]).isdisjoint(set(groups[test_idx])), "Leakage detect
 
 Training a Random Forest and an SVM on both versions of the split produces a clear, consistent gap.
 
----
 
 <p align="center">
   <img src="figures/figure2_accuracy_comparison.png" alt="Accuracy comparison: naive split vs. subject-level split" width="700">
@@ -127,7 +125,7 @@ Training a Random Forest and an SVM on both versions of the split produces a cle
   <strong>Figure 02.</strong> Accuracy comparison, naive split vs. subject level split, both models
 </p>
 
----
+
 
 Random Forest goes from 78.3% down to 47.5%. SVM goes from 77.2% down to 54.0%. Both models drop by roughly 25 to 30 accuracy points. Nothing about the model architecture, the hyperparameters, or the training procedure changed between these two numbers. Only whether the split allowed the model to cheat changed.
 
@@ -137,7 +135,7 @@ Random Forest goes from 78.3% down to 47.5%. SVM goes from 77.2% down to 54.0%. 
 
 It helps to actually look inside the feature space rather than just trust the accuracy numbers. Running PCA on the same dataset and coloring points by subject identity versus coloring them by activity class makes the underlying problem visible directly.
 
----
+
 
 <p align="center">
   <img src="figures/figure3_subject_vs_activity_embedding.png" alt="PCA embedding colored by subject identity and activity class" width="700">
@@ -147,7 +145,7 @@ It helps to actually look inside the feature space rather than just trust the ac
   <strong>Figure 03.</strong> PCA embedding, colored by subject identity vs. colored by activity class
 </p>
 
----
+
 
 Colored by subject, the points form tight, cleanly separable clusters. Colored by activity class, the four classes overlap heavily and blend into each other. This is the mechanism in a single picture: the signal that best explains the variation in the data is who the person is, not what they're doing. A naive split lets the model quietly optimize for the easier, wrong signal, and the accuracy number has no way of telling you that's what happened.
 
@@ -157,7 +155,7 @@ Colored by subject, the points form tight, cleanly separable clusters. Colored b
 
 Removing the leakage doesn't just lower the headline accuracy number, it changes what kind of mistakes the model makes. Looking at the confusion matrix before and after the fix shows this clearly.
 
----
+
 
 <p align="center">
   <img src="figures/figure4_confusion_matrices.png" alt="Confusion matrices: naive split vs. subject-level split" width="700">
@@ -167,7 +165,7 @@ Removing the leakage doesn't just lower the headline accuracy number, it changes
   <strong>Figure 04.</strong> Confusion matrices, naive split vs. subject level split
 </p>
 
----
+
 
 Under the naive split, the Random Forest is confidently correct almost everywhere, with errors scattered lightly and evenly. Under the subject level split, the errors concentrate heavily around specific activity pairs, most noticeably confusing walking, running, and stairs with each other, activities that genuinely do share overlapping physical signatures. That's a far more honest picture of the problem. A model that struggles specifically to separate walking from stairs is telling you something real about the task's difficulty. A model that simply memorized thirty people was never telling you anything about the task at all.
 
@@ -209,3 +207,4 @@ python -m src.make_figures    # regenerates every figure in this article
 Change the random seed in `src/generate_data.py` and rerun both commands if you want to convince yourself this isn't a cherry picked result. It holds across seeds, because it's structural, not incidental.
 
 If this kind of methodology first debugging is interesting to you, the repository's README has more detail, and I'm always happy to talk shop in the comments.
+---
