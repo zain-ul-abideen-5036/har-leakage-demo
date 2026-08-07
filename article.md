@@ -139,7 +139,13 @@ It helps to actually look inside the feature space rather than just trust the ac
 
 ---
 
-**[Insert Figure 3 here — PCA embedding, colored by subject identity vs. colored by activity class]**
+<p align="center">
+  <img src="figures/figure3_subject_vs_activity_embedding.png" alt="PCA embedding colored by subject identity and activity class" width="700">
+</p>
+
+<p align="center">
+  <strong>Figure 03.</strong> PCA embedding, colored by subject identity vs. colored by activity class
+</p>
 
 ---
 
