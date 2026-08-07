@@ -11,7 +11,7 @@ This is one of the most common and most silent bugs in applied machine learning,
 ---
 
 <p align="center">
-  <img src="assets/banner.png" alt="Project Banner" width="900">
+  <img src="assets/banner.png" alt="Project Banner" width="1000">
 </p>
 
 ---
@@ -44,7 +44,7 @@ So the model doesn't strictly need to learn what walking looks like in general. 
 
 ---
 <p align="center">
-  <img src="figures/figure1_split_diagram.png" alt="Naive random split vs. subject-level split" width="800">
+  <img src="figures/figure1_split_diagram.png" alt="Naive random split vs. subject-level split" width="700">
 </p>
 
 <p align="center">
