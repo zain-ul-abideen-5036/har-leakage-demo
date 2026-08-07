@@ -43,6 +43,7 @@ A random shuffle has no idea any of that matters. It happily places some of Subj
 So the model doesn't strictly need to learn what walking looks like in general. It can partially get away with recognizing Subject 14 specifically, and it has already met Subject 14 during training. The model isn't cheating on purpose. The split simply handed it the answer key before the exam started.
 
 ---
+
 <p align="center">
   <img src="figures/figure1_split_diagram.png" alt="Naive random split vs. subject-level split" width="700">
 </p>
@@ -118,7 +119,13 @@ Training a Random Forest and an SVM on both versions of the split produces a cle
 
 ---
 
-**[Insert Figure 2 here — Accuracy comparison bar chart, naive split vs. subject level split]**
+<p align="center">
+  <img src="figures/figure2_accuracy_comparison.png" alt="Accuracy comparison: naive split vs. subject-level split" width="700">
+</p>
+
+<p align="center">
+  <strong>Figure 02.</strong> Accuracy comparison, naive split vs. subject level split, both models
+</p>
 
 ---
 
