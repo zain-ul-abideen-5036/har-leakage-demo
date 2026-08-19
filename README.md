@@ -127,7 +127,7 @@ The complete article, including the PCA visualization of why the subject signal 
 
 <div align="center">
 
-**[Read "The Data Leakage Bug That Makes Your Model Look 30 Points Better Than It Is" on Medium →](#)**
+**[Read "The Data Leakage Bug That Makes Your Model Look 30 Points Better Than It Is" on Medium →](https://medium.com/@zainulabideen5/the-data-leakage-bug-that-makes-your-model-look-30-points-better-than-it-is-0160407cdaee?sharedUserId=zainulabideen5)**
 
 </div>
 
